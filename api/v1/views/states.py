@@ -44,6 +44,7 @@ def create_state():
     if 'name' not in request_data:
         return jsonify({"error": "Missing name"}), 400
     state = State(name=request_data['name'])
+    storage.save()
     return jsonify(state.to_dict()), 201
 
 
