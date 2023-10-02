@@ -1,6 +1,6 @@
-*.json
 test_params_create
 test_get_count.py
+*.json
 __pycache__/
 models/__pycache__/
 api/__pycache__/
