@@ -33,3 +33,32 @@ def delete_state(state_id):
     storage.delete(state)
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route('/api/v1/states', methods=['POST'])
+def create_state():
+    """creates a state obj"""
+    request_data = json.get_data()
+    if request_data is None:
+        return jsonify({"error": "Not a JSON"}), 400
+    if 'name' not in request_data:
+        return jsonify({"error": "Missing name"}), 400
+    state = State(name=request_data['name'])
+    return jsonify(state.to_dict()), 201
+
+
+@app_views.route('/api/v1/states/<state_id>', methods=['POST'])
+def update_state(state_id):
+    """updates state"""
+    state = State.get(state_id)
+    if state is None:
+        abort(404)
+    request_data = request.get_json()
+    if request_data is None:
+        return jsonify({"error": "Not a JSON"}), 400
+    for k, v in request_data.items():
+        if k not in ['id', 'created_at', 'updated_at']:
+            setattr(state, k, v)
+
+    storage.save()
+    return jsonify(state.to_dict()), 200
