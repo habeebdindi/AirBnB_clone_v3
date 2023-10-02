@@ -39,7 +39,7 @@ def create_amenity():
     data = request.get_json()
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
-    if 'name' not in data:
+    if 'name' not in data.keys():
         return jsonify({"error": "Missing name"}), 400
     new_amenity = Amenity(**data)
     storage.new(new_amenity)
