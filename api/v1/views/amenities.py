@@ -30,6 +30,8 @@ def delete_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
+    storage.delete(amenity)
+    storage.save()
     return jsonify({}), 200
 
 
@@ -41,7 +43,7 @@ def create_amenity():
         return jsonify({"error": "Not a JSON"}), 400
     if 'name' not in data.keys():
         return jsonify({"error": "Missing name"}), 400
-    new_amenity = Amenity(**data)
+    new_amenity = Amenity(name=data['name'])
     storage.new(new_amenity)
     storage.save()
     return jsonify(new_amenity.to_dict()), 201
