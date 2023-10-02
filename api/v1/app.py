@@ -10,11 +10,13 @@ from models import storage
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def close_storage(exception=None):
     storage.close()
 
 app.register_blueprint(app_views)
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -30,4 +32,5 @@ if __name__ == '__main__':
         host = HBNB_API_HOST
     if HBNB_API_PORT:
         port = int(HBNB_API_PORT)
+
     app.run(host=host, port=port, threaded=True)
