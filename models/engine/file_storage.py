@@ -70,6 +70,7 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
+        """Query on the current database session"""
         result = []
         classes = [User, State, City, Amenity, Place, Review]
         if cls in classes:
@@ -79,6 +80,7 @@ class FileStorage:
                     return obj
 
     def count(self, cls=None):
+        """Returns the count of objects"""
         count = 0
         classes = [User, State, City, Amenity, Place, Review]
         if cls in classes:

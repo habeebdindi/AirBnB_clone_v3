@@ -2,3 +2,5 @@ test_params_create
 test_get_count.py
 *.json
 __pycache__/
+test_base_model_dict.py
+test_base_model.py
