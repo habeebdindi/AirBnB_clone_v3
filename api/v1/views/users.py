@@ -49,7 +49,7 @@ def create_user():
         return jsonify({"error": "Missing email"}), 400
     if 'password' not in data.keys():
         return jsonify({"error": "Missing password"})
-    new_user = User(email=data.get('email'), password=data.get('password'))
+    new_user = User(**data)
     storage.new(new_user)
     storage.save()
     return jsonify(new_user.to_dict()), 201
