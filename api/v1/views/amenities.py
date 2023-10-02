@@ -8,7 +8,7 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET'])
+@app_views.route('/amenities/', methods=['GET'])
 def get_amenities():
     """returns all amenity objects"""
     amenities = storage.all(Amenity).values()
@@ -33,7 +33,7 @@ def delete_amenity(amenity_id):
     return jsonify({}), 200
 
 
-@app_views.route('/amenities', methods=['POST'])
+@app_views.route('/amenities/', methods=['POST'])
 def create_amenity():
     """creates an amenity object"""
     data = request.get_json()
