@@ -30,10 +30,6 @@ def delete_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    """for place in user.places:
-        storage.delete(place)
-    for review in user.reviews:
-        storage.delete(review)"""
     storage.delete(user)
     storage.save()
     return jsonify({}), 200
@@ -49,7 +45,15 @@ def create_user():
         return jsonify({"error": "Missing email"}), 400
     if 'password' not in data.keys():
         return jsonify({"error": "Missing password"})
-    new_user = User(**data)
+    #new_user = User(**data)
+    f_name = data.get('first_name', None)
+    l_name = data.get('last_name', None)
+    new_user = User(
+        email=data['email'],
+        password=data['password'],
+        first_name=f_name
+        last_name=l_name
+    )
     storage.new(new_user)
     storage.save()
     return jsonify(new_user.to_dict()), 201
