@@ -3,12 +3,15 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 from datetime import datetime
 import inspect
 import models
 from models.engine import db_storage
 from models.amenity import Amenity
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.city import City
 from models.place import Place
 from models.review import Review
@@ -86,3 +89,35 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    """Test the DBStorage class"""
+    def setUp(self):
+        """Setup variables"""
+        self.storage = DBStorage()
+        self.storage.reload()
+
+    def tearDown(self):
+        """Clean up"""
+        self.storage.close()
+
+    def test_get(self):
+        """test get method"""
+        new_state_db = State(name="Lagos")
+        self.storage.new(new_state_db)
+        self.storage.save()
+        get_state_db = self.storage.get(State, new_state_db.id)
+        self.assertEqual(get_state_db, new_state_db)
+
+    def test_count(self):
+        """ Tests the count method
+        """
+        new_state_db = State(name="Lagos")
+        self.storage.new(new_state_db)
+        self.storage.save()
+
+        with self.subTest(msg="Test count with class"):
+            count_method_db = self.storage.count(State)
+            count_normal_db = len(self.storage.all(State))
+            self.assertEqual(count_normal_db, count_method_db)
