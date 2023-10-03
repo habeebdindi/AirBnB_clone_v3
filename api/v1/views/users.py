@@ -45,7 +45,7 @@ def create_user():
         return jsonify({"error": "Missing email"}), 400
     if 'password' not in data.keys():
         return jsonify({"error": "Missing password"})
-    #new_user = User(**data)
+    """new_user = User(**data)"""
     f_name = data.get('first_name', None)
     l_name = data.get('last_name', None)
     new_user = User(
